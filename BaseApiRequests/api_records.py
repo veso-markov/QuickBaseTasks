@@ -1,9 +1,9 @@
 import requests
 
 
-class ApiRecords:
+class api_records:
 
-    def Query(self, table, where, select):
+    def query(self, table, where, select):
         body = {"from": table, "where": where, "select": select}
         r = requests.post(
             self.url + "/query",
@@ -14,7 +14,7 @@ class ApiRecords:
         print(r.text)
         return r
 
-    def Insert(self, table, id, values, fields_to_return):
+    def insert(self, table, id, values, fields_to_return):
         id_value_pair = {}
         value_pair = {}
         if len(id) < 1:

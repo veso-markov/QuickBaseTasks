@@ -2,12 +2,12 @@ import json
 
 import pytest
 
-from BaseApiRequests.ApiDelete import ApiDelete as Delete
-from BaseApiRequests.ApiRecords import ApiRecords as Records
+from BaseApiRequests.api_delete import api_delete as delete
+from BaseApiRequests.api_records import api_records as records
 
 
-class DeleteTests(Delete, Records):
-    @pytest.mark.Delete
+class DeleteTests(delete, records):
+    @pytest.mark.delete
     def test_delete_to_wrong_realm(self):
         self.headers = {
             'QB-Realm-Hostname': 'wrong.quickbase.com',
@@ -17,14 +17,14 @@ class DeleteTests(Delete, Records):
         self.assertEqual(response.status_code, 502)
         self.assertEqual(json.loads(response.text)["message"], "Unknown Hostname")
 
-    @pytest.mark.Delete
+    @pytest.mark.delete
     def test_delete_without_header(self):
         self.headers = {}
         response = self.delete(table="brfnk4id5", where="{CT.''}")
         self.assertEqual(response.status_code, 400)
         self.assertEqual(json.loads(response.text)["message"], "Bad request")
 
-    @pytest.mark.Delete
+    @pytest.mark.delete
     def test_delete_with_wrong_token(self):
         self.headers = {
             'QB-Realm-Hostname': 'team.quickbase.com',
@@ -34,27 +34,27 @@ class DeleteTests(Delete, Records):
         self.assertEqual(response.status_code, 401)
         self.assertEqual(json.loads(response.text)["message"], "Access denied")
 
-    @pytest.mark.Delete
+    @pytest.mark.delete
     def test_delete_with_invalid_table(self):
         response = self.delete(table="invalid_table", where="{CT.''}")
         self.assertEqual(response.status_code, 400)
         self.assertEqual(json.loads(response.text)["message"], "Invalid request")
 
-    @pytest.mark.Delete
+    @pytest.mark.delete
     def test_delete_with_wrong_table(self):
         response = self.delete(table="brfnk4id6", where="{CT.''}")
         self.assertEqual(response.status_code, 401)
         self.assertEqual(json.loads(response.text)["message"], "Access denied")
 
-    @pytest.mark.Delete
+    @pytest.mark.delete
     def test_delete_more_than_one(self):
-        first_record = self.Insert(table="brfnk4id5", id=['6'], values=['test'], fields_to_return="")
-        second_record = self.Insert(table="brfnk4id5", id=['6'], values=['test1'], fields_to_return="")
+        first_record = self.insert(table="brfnk4id5", id=['6'], values=['test'], fields_to_return="")
+        second_record = self.insert(table="brfnk4id5", id=['6'], values=['test1'], fields_to_return="")
         response = self.delete(table="brfnk4id5", where="{CT.''}")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(json.loads(response.text)["numberDeleted"], 2)
 
-    @pytest.mark.Delete
+    @pytest.mark.delete
     def test_delete_none(self):
         response = self.delete(table="brfnk4id5", where="{CT.''}")
         self.assertEqual(response.status_code, 200)

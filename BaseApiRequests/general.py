@@ -2,7 +2,7 @@ import re
 from datetime import datetime
 
 
-class General:
+class general:
     def generate_now_time(self):
         return datetime.now().strftime("%H:%M:%S")
 

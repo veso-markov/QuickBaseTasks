@@ -1,7 +1,7 @@
 import requests
 
 
-class ApiDelete:
+class api_delete:
     def delete(self, table, where):
         body = {"from": table, "where": where}
         r = requests.delete(
