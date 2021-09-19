@@ -115,3 +115,5 @@ dmypy.json
 
 #Reports
 *.xml
+#PyCharm folder
+.idea/
